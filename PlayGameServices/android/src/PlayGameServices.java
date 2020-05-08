@@ -54,10 +54,12 @@ public class PlayGameServices extends Godot.SingletonBase {
                         Log.i("godot", "PlayGameServices: connection callbacks onConnected ");
                         isGooglePlayConnected = true;
                         Log.i("godot", "PlayGameServices: calling godot above ");
+                        GodotLib.calldeferred(deviceID, "_on_play_services_connected", new Object[0]);
                     }
                     @Override
                     public void onConnectionSuspended(int m_cause) {
                         Log.i("godot", "PlayGameServices: connection callbacks onConnectionSuspended int cause "+String.valueOf(m_cause));
+                        GodotLib.calldeferred(deviceID, "_on_play_services_connection_suspended", new Object[0]);
                     }
                 })
                 .addOnConnectionFailedListener(new OnConnectionFailedListener() {
@@ -82,8 +84,6 @@ public class PlayGameServices extends Godot.SingletonBase {
                     }
                 })
                 .addApi(Games.API).addScope(Games.SCOPE_GAMES)
-                .addApi(Plus.API).addScope(Plus.SCOPE_PLUS_LOGIN)
-                .addApi(Drive.API).addScope(Drive.SCOPE_APPFOLDER)
                 .build();
             }
         });
